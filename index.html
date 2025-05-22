@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricketer's Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .cart-open {
+      transform: translateX(0);
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white font-sans">
+  <!-- Navbar -->
+  <nav class="bg-gray-900 px-6 py-4 flex justify-between items-center">
+    <div class="text-2xl font-bold text-white">Cricketer's Hub</div>
+    <div class="hidden md:flex gap-6 items-center">
+      
+      <button onclick="toggleCart()" class="relative">
+        <span class="hover:text-blue-400">Cart</span>
+        <span id="cart-count" class="absolute -top-2 -right-3 bg-red-600 text-white text-xs px-2 rounded-full">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-gray-800 text-white py-20 text-center">
+    <h1 class="text-4xl font-bold mb-4">Gear Up Like a Pro</h1>
+    <p class="text-xl">Top cricket equipment for all your needs!</p>
+  </section>
+
+  <!-- Product Listing -->
+  <section id="products" class="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Cricket Bat" data-price="2000">
+      <img src="assects/bat_image.jpg" alt="Cricket Bat" class="w-full mb-4">
+      <h2 class="font-bold">Cricket Bat</h2>
+      <p class="text-gray-300">Rs. 2000</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Ball" data-price="80">
+      <img src="assects/ballsss.jpeg" alt="ball" class="w-full mb-4">
+      <h2 class="font-bold">Ball</h2>
+      <p class="text-gray-300">Rs. 80</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Batting Pad" data-price="900">
+      <img src="assects/pad.jpeg" alt="Batting Pad's" class="w-full mb-4">
+      <h2 class="font-bold">Batting pad</h2>
+      <p class="text-gray-300">Rs. 900</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Stumps" data-price="600">
+      <img src="assects/stump.jpeg" alt="Stumps" class="w-full mb-4">
+      <h2 class="font-bold">Stumps</h2>
+      <p class="text-gray-300">Rs. 600</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Abdominal Guard" data-price="250">
+      <img src="assects/guard.jpeg" alt="Abdominal Guard" class="w-full mb-4">
+      <h2 class="font-bold">Abdominal Guard</h2>
+      <p class="text-gray-300">Rs. 250</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Batting Pad" data-price="100">
+      <img src="assects/glowesss.jpeg" alt="Batting Glowes" class="w-full mb-4">
+      <h2 class="font-bold">Batting Pad</h2>
+      <p class="text-gray-300">Rs. 100</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Cricket Shoes" data-price="1500">
+      <img src="assects/shoes.webp" alt="Cricket Shoes" class="w-full mb-4">
+      <h2 class="font-bold">Cricket Shoes</h2>
+      <p class="text-gray-300">Rs. 1500</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+
+    <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition" data-name="Helmet" data-price="1100">
+      <img src="assects/helmet.jpeg" alt="Helmet" class="w-full mb-4">
+      <h2 class="font-bold">Helmet</h2>
+      <p class="text-gray-300">Rs. 1100</p>
+      <button onclick="addToCart(this)" class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">Add to Cart</button>
+    </div>
+  </section>
+
+  <!-- Cart Sidebar -->
+ <div id="cart" class="fixed top-0 right-0 w-80 h-full bg-gray-900 shadow-lg transition-transform duration-300 transform translate-x-full overflow-auto text-white">
+
+    <div class="p-4 flex justify-between items-center border-b border-gray-700">
+      <h2 class="text-xl font-bold">Your Cart</h2>
+      <button onclick="toggleCart()" class="text-red-400">Close</button>
+    </div>
+    <div id="cart-items" class="p-4"></div>
+    <div class="p-4 border-t border-gray-700">
+      <p class="font-bold mb-2">Total Bill Summary:</p>
+      <p>Subtotal: Rs. <span id="subtotal">0</span></p>
+      <p>Tax (5%): Rs. <span id="tax">0</span></p>
+      <p class="font-bold mt-2">Grand Total: Rs. <span id="total">0</span></p>
+      <button class="mt-4 w-full bg-green-600 text-white py-2 rounded" onclick="checkoutOrder()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Contact Box (Initially Hidden) -->
+<div id="contact-box" class="fixed bottom-4 right-4 w-96 bg-gray-800 text-white p-4 rounded shadow-lg hidden z-50">
+  <div class="flex justify-between items-center border-b border-gray-700 pb-2 mb-2">
+    <h3 class="font-bold text-lg">Contact Us</h3>
+    <button onclick="toggleContactBox()" class="text-red-400 text-sm">Close</button>
+  </div>
+  <form class="flex flex-col gap-2">
+    <input type="text" placeholder="Your Name" class="p-2 rounded bg-gray-700 text-white border-none outline-none">
+    <input type="email" placeholder="Your Email" class="p-2 rounded bg-gray-700 text-white border-none outline-none">
+    <textarea rows="3" placeholder="Message" class="p-2 rounded bg-gray-700 text-white border-none outline-none"></textarea>
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 py-2 rounded text-white font-semibold">Send</button>
+  </form>
+</div>
+
+
+  <footer class="bg-gray-900 mt-16 p-4 text-center text-sm text-gray-400">
+  <p>&copy; 2025 Cricketer's Hub</p>
+  <p class="mt-2">
+    <a href="#" onclick="scrollToTop()" class="hover:text-blue-400">About</a> |
+    <a href="#" onclick="toggleContactBox()" class="hover:text-blue-400">Contact</a> |
+    <a href="#" class="hover:text-blue-400">Terms</a>
+  </p>
+</footer>
+
+
+  <script>
+    const cart = document.getElementById("cart");
+    const cartItems = document.getElementById("cart-items");
+    const totalDisplay = document.getElementById("total");
+    const cartCount = document.getElementById("cart-count");
+    const subtotalDisplay = document.getElementById("subtotal");
+    const taxDisplay = document.getElementById("tax");
+    let cartData = [];
+
+   function toggleCart() {
+  cart.classList.toggle("translate-x-full");
+  cart.classList.toggle("translate-x-0");
+}
+
+    function addToCart(button) {
+      const card = button.closest("[data-name]");
+      const name = card.getAttribute("data-name");
+      const price = parseInt(card.getAttribute("data-price"));
+      const existing = cartData.find(item => item.name === name);
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cartData.push({ name, price, quantity: 1 });
+      }
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      cartData.splice(index, 1);
+      renderCart();
+    }
+
+    function updateQuantity(index, amount) {
+      cartData[index].quantity += amount;
+      if (cartData[index].quantity <= 0) {
+        removeFromCart(index);
+      } else {
+        renderCart();
+      }
+    }
+
+    function renderCart() {
+      cartItems.innerHTML = "";
+      let subtotal = 0;
+      let count = 0;
+      cartData.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        count += item.quantity;
+        const div = document.createElement("div");
+        div.className = "flex justify-between items-center mb-2 text-sm";
+        div.innerHTML = `
+          <div class="w-full">
+            <p>${item.name} (x${item.quantity}) - Rs.${itemTotal}</p>
+            <div class="flex gap-2 mt-1">
+              <button onclick="updateQuantity(${index}, -1)" class="bg-gray-700 px-2 rounded">-</button>
+              <button onclick="updateQuantity(${index}, 1)" class="bg-gray-700 px-2 rounded">+</button>
+              <button onclick="removeFromCart(${index})" class="text-red-400 ml-2">Remove</button>
+            </div>
+          </div>
+        `;
+        cartItems.appendChild(div);
+      });
+      const tax = Math.round(subtotal * 0.05);
+      const total = subtotal + tax;
+      subtotalDisplay.textContent = subtotal;
+      taxDisplay.textContent = tax;
+      totalDisplay.textContent = total;
+      cartCount.textContent = count;
+    }
+    function toggleContactBox() {
+  const box = document.getElementById("contact-box");
+  box.classList.toggle("hidden");
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkoutOrder() {
+      alert("Your order successfully placed!!");
+    }
+  </script>
+</body>
+
+</html>
