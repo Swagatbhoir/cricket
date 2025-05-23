@@ -17,14 +17,33 @@
   <!-- Navbar -->
   <nav class="bg-gray-900 px-6 py-4 flex justify-between items-center">
     <div class="text-2xl font-bold text-white">Cricketer's Hub</div>
+    <!-- Hamburger Icon for Mobile -->
+    <button id="hamburger" class="md:hidden text-white focus:outline-none" onclick="toggleMenu()">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
     <div class="hidden md:flex gap-6 items-center">
-      
       <button onclick="toggleCart()" class="relative">
         <span class="hover:text-blue-400">Cart</span>
         <span id="cart-count" class="absolute -top-2 -right-3 bg-red-600 text-white text-xs px-2 rounded-full">0</span>
       </button>
     </div>
   </nav>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-50 hidden flex-col items-center justify-center">
+    <button onclick="toggleMenu()" class="absolute top-4 right-6 text-white text-3xl">&times;</button>
+    <div class="flex flex-col gap-8 items-center mt-20">
+      <a href="#products" onclick="toggleMenu()" class="text-xl hover:text-blue-400">Products</a>
+      <button onclick="toggleCart();toggleMenu();" class="relative text-xl hover:text-blue-400">
+        Cart
+        <span id="cart-count-mobile" class="absolute -top-2 -right-6 bg-red-600 text-white text-xs px-2 rounded-full">0</span>
+      </button>
+      <a href="#" onclick="scrollToTop();toggleMenu();return false;" class="text-xl hover:text-blue-400">About</a>
+      <a href="#" onclick="toggleContactBox();toggleMenu();return false;" class="text-xl hover:text-blue-400">Contact</a>
+    </div>
+  </div>
+  <!-- Overlay for Mobile Menu -->
 
   <!-- Hero Section -->
   <section class="bg-gray-800 text-white py-20 text-center">
@@ -214,6 +233,22 @@ function scrollToTop() {
 
 function checkoutOrder() {
       alert("Your order successfully placed!!");
+    }
+
+function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+    // Keep cart count in sync for mobile
+    const cartCountMobile = document.getElementById('cart-count-mobile');
+    function updateCartCount() {
+      cartCountMobile.textContent = cartCount.textContent;
+    }
+    // Update cart count on cart changes
+    const origRenderCart = renderCart;
+    renderCart = function() {
+      origRenderCart();
+      updateCartCount();
     }
   </script>
 </body>
