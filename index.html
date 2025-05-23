@@ -123,7 +123,7 @@
       <p>Subtotal: Rs. <span id="subtotal">0</span></p>
       <p>Tax (5%): Rs. <span id="tax">0</span></p>
       <p class="font-bold mt-2">Grand Total: Rs. <span id="total">0</span></p>
-      <button class="mt-4 w-full bg-green-600 text-white py-2 rounded" onclick="checkoutOrder()">Checkout</button>
+      <button class="mt-4 w-full bg-green-600 text-white py-2 rounded" onclick="openPaymentGateway()">Checkout</button>
     </div>
   </div>
 
@@ -231,9 +231,48 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function checkoutOrder() {
-      alert("Your order successfully placed!!");
-    }
+function openPaymentGateway() {
+  const modal = document.createElement('div');
+  modal.id = 'payment-modal';
+  modal.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50';
+  modal.innerHTML = `
+    <div class="bg-gray-900 p-8 rounded shadow-lg w-96 text-center relative">
+      <button onclick="closePaymentGateway()" class="absolute top-2 right-4 text-gray-400 text-2xl">&times;</button>
+      <h2 class="text-2xl font-bold mb-4">Checkout</h2>
+      <form onsubmit="submitPayment(event)" class="flex flex-col gap-4">
+        <input type="text" placeholder="Full Name" class="p-2 rounded bg-gray-700 text-white" required>
+        <input type="text" placeholder="Address" class="p-2 rounded bg-gray-700 text-white" required>
+        <input type="email" placeholder="Email" class="p-2 rounded bg-gray-700 text-white" required>
+        <div class="flex flex-col gap-2 text-left">
+          <label class="font-semibold">Payment Method:</label>
+          <label class="inline-flex items-center">
+            <input type="radio" name="payment" value="upi" class="form-radio text-blue-600" required>
+            <span class="ml-2">UPI</span>
+          </label>
+          <label class="inline-flex items-center">
+            <input type="radio" name="payment" value="credit" class="form-radio text-blue-600" required>
+            <span class="ml-2">Credit Card</span>
+          </label>
+        </div>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded">Place Order</button>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closePaymentGateway() {
+  const modal = document.getElementById('payment-modal');
+  if (modal) modal.remove();
+}
+
+function submitPayment(event) {
+  event.preventDefault();
+  closePaymentGateway();
+  setTimeout(() => {
+    alert('Your order successfully placed!!');
+  }, 200);
+}
 
 function toggleMenu() {
       const menu = document.getElementById('mobile-menu');
